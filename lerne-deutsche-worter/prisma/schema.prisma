@@ -1,14 +1,49 @@
 // This is your Prisma schema file,
 // learn more about it in the docs: https://pris.ly/d/prisma-schema
 
-// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
-// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
-
 generator client {
   provider = "prisma-client-js"
 }
 
 datasource db {
-  provider = "postgresql"
+  provider = "sqlite"
   url      = env("DATABASE_URL")
 }
+
+// 德语级别：A1, A2, B1, B2, C1
+model Level {
+  id        String   @id @default(cuid())
+  name      String   @unique // A1, A2, B1, B2, C1
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  topics    Topic[]
+  words     Word[]
+}
+
+// 课程主题
+model Topic {
+  id        String   @id @default(cuid())
+  name      String   // 主题名称
+  levelId   String   // 关联的级别ID
+  level     Level    @relation(fields: [levelId], references: [id], onDelete: Cascade)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  words     Word[]
+
+  @@unique([name, levelId]) // 确保同一级别下主题名称唯一
+}
+
+// 单词
+model Word {
+  id         String   @id @default(cuid())
+  german     String   // 德语单词
+  chinese    String   // 中文翻译
+  levelId    String   // 关联的级别ID
+  level      Level    @relation(fields: [levelId], references: [id], onDelete: Cascade)
+  topicId    String   // 关联的主题ID
+  topic      Topic    @relation(fields: [topicId], references: [id], onDelete: Cascade)
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+
+  @@unique([german, levelId, topicId]) // 确保同一级别和主题下德语单词唯一
+} 

@@ -152,7 +152,7 @@ export default function ManagePage() {
 
   return (
     <div className="max-w-4xl mx-auto">
-      <h1 className="text-2xl font-bold text-center mb-8">管理级别和主题</h1>
+      <h1 className="text-2xl font-bold text-center mb-8 text-black">管理级别和主题</h1>
 
       {message && (
         <div 
@@ -167,7 +167,7 @@ export default function ManagePage() {
       <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
         {/* 级别管理 */}
         <div className="bg-white p-6 rounded-lg shadow-md">
-          <h2 className="text-xl font-bold mb-4">级别管理</h2>
+          <h2 className="text-xl font-bold mb-4 text-black">级别管理</h2>
 
           <div className="mb-6">
             <div className="flex items-center">
@@ -223,7 +223,7 @@ export default function ManagePage() {
 
         {/* 主题管理 */}
         <div className="bg-white p-6 rounded-lg shadow-md">
-          <h2 className="text-xl font-bold mb-4">
+          <h2 className="text-xl font-bold mb-4 text-black">
             {selectedLevel 
               ? `主题管理 (${levels.find(l => l.id === selectedLevel)?.name || ''})`
               : '主题管理 (请先选择级别)'}
@@ -274,7 +274,7 @@ export default function ManagePage() {
       </div>
       
       <div className="mt-8 bg-white p-6 rounded-lg shadow-md">
-        <h2 className="text-xl font-bold mb-4">单词统计</h2>
+        <h2 className="text-xl font-bold mb-4 text-black">单词统计</h2>
         {selectedLevel ? (
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
             {topics.map((topic) => (

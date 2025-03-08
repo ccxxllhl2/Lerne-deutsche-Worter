@@ -187,7 +187,7 @@ export default function UploadPage() {
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
         <div>
-          <label className="block text-gray-700 mb-2">选择级别 (必选)</label>
+          <label className="block text-slate-700 mb-2">选择级别 (必选)</label>
           <select
             value={selectedLevel}
             onChange={handleLevelChange}
@@ -204,7 +204,7 @@ export default function UploadPage() {
         </div>
 
         <div>
-          <label className="block text-gray-700 mb-2">选择或创建课程主题</label>
+          <label className="block text-slate-700 mb-2">选择或创建课程主题</label>
           <select
             value={selectedTopic}
             onChange={handleTopicChange}
@@ -244,7 +244,7 @@ export default function UploadPage() {
       )}
 
       <div className="mb-6">
-        <label className="block text-gray-700 mb-2">上传CSV文件</label>
+        <label className="block text-slate-700 mb-2">上传CSV文件</label>
         <div 
           {...getRootProps()} 
           className="border-2 border-dashed border-gray-300 rounded-md p-6 text-center cursor-pointer hover:border-blue-500"

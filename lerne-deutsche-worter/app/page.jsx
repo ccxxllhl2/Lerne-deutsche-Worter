@@ -62,15 +62,15 @@ export default function HomePage() {
   };
 
   if (loading) {
-    return <div className="text-center py-10">加载中...</div>;
+    return <div className="text-center py-10 text-black">加载中...</div>;
   }
 
   return (
     <div className="max-w-md mx-auto bg-white p-8 rounded-lg shadow-md">
-      <h1 className="text-2xl font-bold text-center mb-6">开始学习德语词汇</h1>
+      <h1 className="text-2xl font-bold text-center mb-6 text-black">开始学习德语词汇</h1>
 
       <div className="mb-4">
-        <label className="block text-gray-700 mb-2">选择级别 (必选)</label>
+        <label className="block text-slate-700 mb-2">选择级别 (必选)</label>
         <select
           value={selectedLevel}
           onChange={handleLevelChange}
@@ -87,7 +87,7 @@ export default function HomePage() {
       </div>
 
       <div className="mb-6">
-        <label className="block text-gray-700 mb-2">选择课程主题</label>
+        <label className="block text-slate-700 mb-2">选择课程主题</label>
         <select
           value={selectedTopic}
           onChange={handleTopicChange}
