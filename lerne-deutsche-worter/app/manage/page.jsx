@@ -151,125 +151,96 @@ export default function ManagePage() {
   };
 
   return (
-    <div className="max-w-4xl mx-auto">
-      <h1 className="text-2xl font-bold text-center mb-8 text-black">管理级别和主题</h1>
-
-      {message && (
-        <div 
-          className={`p-4 mb-6 rounded-md ${
-            message.type === 'success' ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'
-          }`}
-        >
-          {message.text}
-        </div>
-      )}
-
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-        {/* 级别管理 */}
-        <div className="bg-white p-6 rounded-lg shadow-md">
-          <h2 className="text-xl font-bold mb-4 text-black">级别管理</h2>
-
-          <div className="mb-6">
-            <div className="flex items-center">
-              <input
-                type="text"
-                value={newLevel}
-                onChange={(e) => setNewLevel(e.target.value)}
-                placeholder="新建级别 (如: A1, B2 等)"
-                className="flex-grow p-2 border rounded-md"
-              />
-              <button
-                onClick={handleCreateLevel}
-                disabled={!newLevel.trim() || loading}
-                className="ml-2 py-2 px-4 bg-blue-600 text-white rounded-md hover:bg-blue-700 disabled:bg-gray-400"
-              >
-                添加
-              </button>
-            </div>
+    <div className="max-w-4xl mx-auto mt-8 p-6 bg-white dark:bg-gray-800 rounded-lg shadow-md">
+      <h1 className="text-2xl font-bold mb-6 text-gray-800 dark:text-white">管理级别和主题</h1>
+      
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div className="border rounded-lg p-4 bg-gray-50 dark:bg-gray-700 border-gray-200 dark:border-gray-600">
+          <h2 className="text-xl font-semibold mb-4 text-gray-800 dark:text-white">级别管理</h2>
+          
+          <div className="mb-4 flex">
+            <input
+              type="text"
+              value={newLevel}
+              onChange={(e) => setNewLevel(e.target.value)}
+              placeholder="输入新级别名称"
+              className="flex-grow p-2 border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-800 text-gray-800 dark:text-gray-200"
+            />
+            <button
+              onClick={handleCreateLevel}
+              disabled={!newLevel.trim()}
+              className="ml-2 py-2 px-4 bg-blue-600 hover:bg-blue-700 dark:bg-blue-700 dark:hover:bg-blue-800 text-white rounded-md disabled:bg-gray-400 dark:disabled:bg-gray-600"
+            >
+              添加
+            </button>
           </div>
-
-          <div className="overflow-y-auto max-h-96">
-            {levels.length === 0 ? (
-              <p className="text-gray-500 text-center">暂无级别数据</p>
-            ) : (
-              <ul className="divide-y divide-gray-200">
-                {levels.map((level) => (
-                  <li key={level.id} className="py-3 flex justify-between items-center">
-                    <div className="flex items-center">
-                      <input
-                        type="radio"
-                        id={`level-${level.id}`}
-                        name="selectedLevel"
-                        checked={selectedLevel === level.id}
-                        onChange={() => setSelectedLevel(level.id)}
-                        className="mr-2"
-                      />
-                      <label htmlFor={`level-${level.id}`} className="cursor-pointer">
-                        {level.name}
-                      </label>
-                    </div>
-                    <button
-                      onClick={() => handleDeleteLevel(level.id)}
-                      className="text-red-600 hover:text-red-800"
-                    >
-                      删除
-                    </button>
-                  </li>
-                ))}
-              </ul>
-            )}
-          </div>
+          
+          <ul className="space-y-2">
+            {levels.map(level => (
+              <li key={level.id} className="flex justify-between items-center p-3 bg-white dark:bg-gray-800 rounded-md shadow-sm">
+                <span className="text-gray-800 dark:text-gray-200">{level.name}</span>
+                <button
+                  onClick={() => handleDeleteLevel(level.id)}
+                  className="py-1 px-3 bg-red-600 hover:bg-red-700 dark:bg-red-700 dark:hover:bg-red-800 text-white text-sm rounded-md"
+                >
+                  删除
+                </button>
+              </li>
+            ))}
+          </ul>
         </div>
-
-        {/* 主题管理 */}
-        <div className="bg-white p-6 rounded-lg shadow-md">
-          <h2 className="text-xl font-bold mb-4 text-black">
-            {selectedLevel 
-              ? `主题管理 (${levels.find(l => l.id === selectedLevel)?.name || ''})`
-              : '主题管理 (请先选择级别)'}
-          </h2>
-
-          <div className="mb-6">
-            <div className="flex items-center">
+        
+        <div className="border rounded-lg p-4 bg-gray-50 dark:bg-gray-700 border-gray-200 dark:border-gray-600">
+          <h2 className="text-xl font-semibold mb-4 text-gray-800 dark:text-white">主题管理</h2>
+          
+          <div className="mb-4">
+            <select
+              value={selectedLevel}
+              onChange={(e) => setSelectedLevel(e.target.value)}
+              className="w-full p-2 mb-2 border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-800 text-gray-800 dark:text-gray-200"
+            >
+              <option value="">选择级别</option>
+              {levels.map(level => (
+                <option key={level.id} value={level.id}>{level.name}</option>
+              ))}
+            </select>
+            
+            <div className="flex">
               <input
                 type="text"
                 value={newTopic}
                 onChange={(e) => setNewTopic(e.target.value)}
-                placeholder="新建主题名称"
+                placeholder="输入新主题名称"
                 disabled={!selectedLevel}
-                className="flex-grow p-2 border rounded-md"
+                className="flex-grow p-2 border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-800 text-gray-800 dark:text-gray-200 disabled:bg-gray-100 dark:disabled:bg-gray-900"
               />
               <button
                 onClick={handleCreateTopic}
-                disabled={!newTopic.trim() || !selectedLevel || loading}
-                className="ml-2 py-2 px-4 bg-blue-600 text-white rounded-md hover:bg-blue-700 disabled:bg-gray-400"
+                disabled={!newTopic.trim() || !selectedLevel}
+                className="ml-2 py-2 px-4 bg-blue-600 hover:bg-blue-700 dark:bg-blue-700 dark:hover:bg-blue-800 text-white rounded-md disabled:bg-gray-400 dark:disabled:bg-gray-600"
               >
                 添加
               </button>
             </div>
           </div>
-
-          <div className="overflow-y-auto max-h-96">
-            {!selectedLevel ? (
-              <p className="text-gray-500 text-center">请先选择左侧的级别</p>
-            ) : topics.length === 0 ? (
-              <p className="text-gray-500 text-center">此级别下暂无主题</p>
-            ) : (
-              <ul className="divide-y divide-gray-200">
-                {topics.map((topic) => (
-                  <li key={topic.id} className="py-3 flex justify-between items-center">
-                    <span>{topic.name}</span>
-                    <button
-                      onClick={() => handleDeleteTopic(topic.id)}
-                      className="text-red-600 hover:text-red-800"
-                    >
-                      删除
-                    </button>
-                  </li>
-                ))}
-              </ul>
-            )}
-          </div>
+          
+          <ul className="space-y-2">
+            {topics.map(topic => (
+              <li key={topic.id} className="flex justify-between items-center p-3 bg-white dark:bg-gray-800 rounded-md shadow-sm">
+                <div>
+                  <span className="text-gray-800 dark:text-gray-200">{topic.name}</span>
+                  <span className="ml-2 text-xs text-gray-500 dark:text-gray-400">{levels.find(l => l.id === topic.levelId)?.name}</span>
+                  <TopicWordCount topicId={topic.id} topicName={topic.name} />
+                </div>
+                <button
+                  onClick={() => handleDeleteTopic(topic.id)}
+                  className="py-1 px-3 bg-red-600 hover:bg-red-700 dark:bg-red-700 dark:hover:bg-red-800 text-white text-sm rounded-md"
+                >
+                  删除
+                </button>
+              </li>
+            ))}
+          </ul>
         </div>
       </div>
       

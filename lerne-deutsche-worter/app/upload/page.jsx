@@ -172,53 +172,45 @@ export default function UploadPage() {
   };
 
   return (
-    <div className="max-w-2xl mx-auto bg-white p-8 rounded-lg shadow-md">
-      <h1 className="text-2xl font-bold text-center mb-6">上传单词表</h1>
-
-      {message && (
-        <div 
-          className={`p-4 mb-6 rounded-md ${
-            message.type === 'success' ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'
-          }`}
-        >
-          {message.text}
-        </div>
-      )}
-
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
-        <div>
-          <label className="block text-slate-700 mb-2">选择级别 (必选)</label>
-          <select
-            value={selectedLevel}
+    <div className="max-w-2xl mx-auto mt-8 p-6 bg-white dark:bg-gray-800 rounded-lg shadow-md">
+      <h1 className="text-2xl font-bold mb-6 text-gray-800 dark:text-white">上传单词</h1>
+      
+      <div className="mb-4">
+        <label className="block text-slate-700 dark:text-gray-300 mb-2">选择级别</label>
+        <div className="flex">
+          <select 
+            value={selectedLevel} 
             onChange={handleLevelChange}
-            className="w-full p-2 border rounded-md"
-            required
+            className="flex-grow p-2 border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-700 text-gray-800 dark:text-gray-200"
           >
             <option value="">请选择级别</option>
-            {levels.map((level) => (
-              <option key={level.id} value={level.id}>
-                {level.name}
-              </option>
+            {levels.map(level => (
+              <option key={level.id} value={level.id}>{level.name}</option>
             ))}
           </select>
         </div>
-
-        <div>
-          <label className="block text-slate-700 mb-2">选择或创建课程主题</label>
-          <select
-            value={selectedTopic}
+      </div>
+      
+      <div className="mb-6">
+        <label className="block text-slate-700 dark:text-gray-300 mb-2">选择主题</label>
+        <div className="flex">
+          <select 
+            value={selectedTopic} 
             onChange={handleTopicChange}
             disabled={!selectedLevel}
-            className="w-full p-2 border rounded-md"
+            className="flex-grow p-2 border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-700 text-gray-800 dark:text-gray-200 disabled:bg-gray-100 dark:disabled:bg-gray-800"
           >
             <option value="">请选择主题</option>
-            {topics.map((topic) => (
-              <option key={topic.id} value={topic.id}>
-                {topic.name}
-              </option>
+            {topics.map(topic => (
+              <option key={topic.id} value={topic.id}>{topic.name}</option>
             ))}
-            <option value="new">+ 创建新主题</option>
           </select>
+          <button
+            onClick={() => setIsCreatingTopic(true)}
+            className="ml-2 py-2 px-4 bg-green-600 hover:bg-green-700 dark:bg-green-700 dark:hover:bg-green-800 text-white rounded-md"
+          >
+            新建主题
+          </button>
         </div>
       </div>
 
@@ -230,12 +222,12 @@ export default function UploadPage() {
               value={newTopic}
               onChange={(e) => setNewTopic(e.target.value)}
               placeholder="输入新主题名称"
-              className="flex-grow p-2 border rounded-md"
+              className="flex-grow p-2 border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-700 text-gray-800 dark:text-gray-200"
             />
             <button
               onClick={handleCreateTopic}
               disabled={!newTopic.trim() || loading}
-              className="ml-2 py-2 px-4 bg-blue-600 text-white rounded-md hover:bg-blue-700 disabled:bg-gray-400"
+              className="ml-2 py-2 px-4 bg-blue-600 hover:bg-blue-700 dark:bg-blue-700 dark:hover:bg-blue-800 text-white rounded-md disabled:bg-gray-400 dark:disabled:bg-gray-600"
             >
               创建
             </button>
@@ -244,76 +236,40 @@ export default function UploadPage() {
       )}
 
       <div className="mb-6">
-        <label className="block text-slate-700 mb-2">上传CSV文件</label>
+        <label className="block text-slate-700 dark:text-gray-300 mb-2">上传CSV文件</label>
         <div 
           {...getRootProps()} 
-          className="border-2 border-dashed border-gray-300 rounded-md p-6 text-center cursor-pointer hover:border-blue-500"
+          className="border-2 border-dashed border-gray-300 dark:border-gray-600 rounded-md p-6 text-center cursor-pointer hover:border-blue-500 dark:hover:border-blue-400 bg-white dark:bg-gray-700"
         >
           <input {...getInputProps()} />
           {csvFile ? (
-            <p>已选择文件: {csvFile.name}</p>
+            <p className="text-gray-800 dark:text-gray-200">已选择文件: {csvFile.name}</p>
           ) : (
-            <p>拖放CSV文件到此处，或点击选择文件</p>
+            <p className="text-gray-800 dark:text-gray-200">拖放CSV文件到此处，或点击选择文件</p>
           )}
-          <p className="text-sm text-gray-500 mt-2">
+          <p className="text-sm text-gray-500 dark:text-gray-400 mt-2">
             CSV文件格式: 第一列为德语单词，第二列为中文翻译，无需表头
           </p>
         </div>
       </div>
-
-      {previewData.length > 0 && (
-        <div className="mb-6">
-          <h3 className="text-lg font-medium mb-2">数据预览 (前5行):</h3>
-          <div className="overflow-x-auto">
-            <table className="min-w-full divide-y divide-gray-200">
-              <thead className="bg-gray-50">
-                <tr>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                    德语
-                  </th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                    中文
-                  </th>
-                </tr>
-              </thead>
-              <tbody className="bg-white divide-y divide-gray-200">
-                {previewData.map((row, index) => (
-                  <tr key={index}>
-                    <td className="px-6 py-4 whitespace-nowrap">{row[0]}</td>
-                    <td className="px-6 py-4 whitespace-nowrap">{row[1]}</td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
-          <p className="text-sm text-gray-500 mt-2">
-            共 {parsedData.length} 行数据将被导入
-          </p>
-        </div>
-      )}
-
+      
       <button
         onClick={handleUpload}
-        disabled={!csvFile || !selectedLevel || !selectedTopic || loading || parsedData.length === 0}
-        className="w-full py-2 px-4 bg-blue-600 text-white rounded-md hover:bg-blue-700 disabled:bg-gray-400 disabled:cursor-not-allowed"
+        disabled={!csvFile || !selectedLevel || !selectedTopic || loading}
+        className="w-full py-2 px-4 bg-blue-600 hover:bg-blue-700 dark:bg-blue-700 dark:hover:bg-blue-800 text-white rounded-md disabled:bg-gray-400 dark:disabled:bg-gray-600"
       >
-        {loading ? '上传中...' : '上传单词表'}
+        上传
       </button>
-
-      <div className="mt-8 p-4 bg-blue-50 rounded-md">
-        <h3 className="text-lg font-medium mb-2">CSV模板说明</h3>
-        <p className="mb-2">您的CSV文件应该包含两列，无需表头：</p>
-        <ul className="list-disc list-inside mb-2">
-          <li>第一列: 德语单词</li>
-          <li>第二列: 中文翻译</li>
-        </ul>
-        <p className="mb-2">示例:</p>
-        <pre className="bg-gray-100 p-2 rounded-md">
-          der Hund,狗<br />
-          die Katze,猫<br />
-          das Haus,房子
-        </pre>
-      </div>
+      
+      {message && (
+        <div className={`mt-4 p-3 rounded-md ${
+          message.type === 'success' 
+            ? 'bg-green-100 dark:bg-green-900 text-green-800 dark:text-green-200' 
+            : 'bg-red-100 dark:bg-red-900 text-red-800 dark:text-red-200'
+        }`}>
+          {message.text}
+        </div>
+      )}
     </div>
   );
 } 

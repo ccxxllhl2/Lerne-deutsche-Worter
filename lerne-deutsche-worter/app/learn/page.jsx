@@ -128,10 +128,10 @@ export default function LearnPage() {
   
   if (completed) {
     return (
-      <div className="max-w-md mx-auto bg-white p-8 rounded-lg shadow-md text-center">
-        <h2 className="text-2xl font-bold mb-4">学习完成!</h2>
-        <p className="mb-6">您已成功完成本组单词的学习。</p>
-        <div className="flex flex-col space-y-4">
+      <div className="w-full max-w-md mx-auto bg-white dark:bg-gray-800 p-4 sm:p-8 rounded-lg shadow-md m-4 sm:m-0">
+        <h2 className="text-xl sm:text-2xl font-bold mb-3 sm:mb-4 text-gray-800 dark:text-white">学习完成!</h2>
+        <p className="mb-4 sm:mb-6 text-gray-600 dark:text-gray-300">您已成功完成本组单词的学习。</p>
+        <div className="flex flex-col space-y-3 sm:space-y-4">
           <button
             onClick={handleRestart}
             className="py-2 px-4 bg-blue-600 text-white rounded-md hover:bg-blue-700"
@@ -150,49 +150,55 @@ export default function LearnPage() {
   }
   
   return (
-    <div className="max-w-md mx-auto bg-white p-8 rounded-lg shadow-md">
-      <div className="mb-4 flex justify-between items-center">
-        <div className="text-sm text-gray-500">
-          {isChineseToGerman ? '中 → 德' : '德 → 中'} 学习
-        </div>
-        <div className="text-sm text-gray-500">
-          进度: {currentIndex + 1}/{words.length}
-        </div>
-      </div>
-      
-      <div className="mb-8">
-        <h2 className="text-xl font-bold mb-2">选择正确的{isChineseToGerman ? '德语' : '中文'}:</h2>
-        <div className="p-4 bg-gray-100 rounded-md text-center text-xl">
-          {currentQuestion}
-        </div>
-      </div>
-      
-      <div className="space-y-3">
-        {options.map((option) => (
+    <div className="w-full max-w-2xl mx-auto mt-4 sm:mt-8 p-4 sm:p-6 bg-white dark:bg-gray-800 rounded-lg shadow-md m-4 sm:m-0">
+      {!completed ? (
+        <>
+          <div className="flex justify-between items-center mb-4 sm:mb-6">
+            <h1 className="text-lg sm:text-2xl font-bold text-gray-800 dark:text-white">
+              {isChineseToGerman ? '中文→德文' : '德文→中文'}
+            </h1>
+            <div className="text-sm sm:text-base text-gray-600 dark:text-gray-300">
+              进度: {currentIndex + 1}/{words.length}
+            </div>
+          </div>
+          
+          <div className="mb-6 sm:mb-8 p-4 sm:p-6 bg-gray-50 dark:bg-gray-700 rounded-lg">
+            <h2 className="text-lg sm:text-xl font-bold text-center mb-2 sm:mb-4 text-gray-800 dark:text-white">
+              {currentQuestion}
+            </h2>
+          </div>
+          
+          <div className="space-y-2 sm:space-y-3">
+            {options.map((option, index) => (
+              <button
+                key={index}
+                onClick={() => handleOptionSelect(option)}
+                className={`w-full p-3 sm:p-4 rounded-lg text-center text-base sm:text-lg font-medium transition-colors 
+                  ${selectedOption === option 
+                    ? (option.correct 
+                      ? 'bg-green-500 text-white' 
+                      : 'bg-red-500 text-white')
+                    : 'bg-white dark:bg-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 text-gray-800 dark:text-gray-200 border border-gray-300 dark:border-gray-600'
+                  }`}
+                disabled={selectedOption !== null}
+              >
+                {option.text}
+              </button>
+            ))}
+          </div>
+        </>
+      ) : (
+        <div className="text-center">
+          <h1 className="text-xl sm:text-2xl font-bold mb-3 sm:mb-4 text-gray-800 dark:text-white">学习完成！</h1>
+          <p className="text-base sm:text-lg mb-4 sm:mb-6 text-gray-600 dark:text-gray-300">
+            你的得分: {currentIndex}/{words.length}
+          </p>
           <button
-            key={option.id}
-            onClick={() => handleOptionSelect(option)}
-            disabled={selectedOption !== null}
-            className={`w-full p-3 text-left rounded-md border ${
-              selectedOption === option
-                ? option.correct
-                  ? 'bg-green-100 border-green-500'
-                  : 'bg-red-100 border-red-500'
-                : 'hover:bg-gray-100 border-gray-300'
-            }`}
+            onClick={handleRestart}
+            className="py-2 px-4 sm:px-6 bg-blue-600 hover:bg-blue-700 dark:bg-blue-700 dark:hover:bg-blue-800 text-white rounded-md"
           >
-            {option.text}
+            重新开始
           </button>
-        ))}
-      </div>
-      
-      {result && (
-        <div
-          className={`mt-4 p-3 rounded-md text-center ${
-            result.correct ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'
-          }`}
-        >
-          {result.message}
         </div>
       )}
     </div>
