@@ -3,8 +3,16 @@
 @tailwind utilities;
 
 :root {
+  /* 亮色模式变量 */
   --background: #ffffff;
   --foreground: #171717;
+  --primary: #3b82f6;
+  --primary-foreground: #ffffff;
+  --card: #ffffff;
+  --card-foreground: #171717;
+  --border: #e5e7eb;
+  --input: #e5e7eb;
+  --ring: #3b82f6;
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --font-sans: var(--font-geist-sans);
@@ -12,12 +20,21 @@
 }
 
 .dark {
+  /* 暗色模式变量 */
   --background: #121212;
   --foreground: #e5e5e5;
+  --primary: #3b82f6;
+  --primary-foreground: #ffffff;
+  --card: #1e1e1e;
+  --card-foreground: #e5e5e5;
+  --border: #2e2e2e;
+  --input: #2e2e2e;
+  --ring: #3b82f6;
   --color-background: var(--background);
   --color-foreground: var(--foreground);
 }
 
+/* 全局基础样式 */
 body {
   background: var(--background);
   color: var(--foreground);
@@ -27,13 +44,16 @@ body {
   font-size: 16px;
   line-height: 1.5;
   overflow-x: hidden;
+  transition: background-color 0.3s ease, color 0.3s ease;
 }
 
+/* 表单元素的基础样式 */
 input, select, button {
   font-size: 16px;
   touch-action: manipulation;
 }
 
+/* 响应式容器 */
 .container-responsive {
   width: 100%;
   padding-left: 1rem;
@@ -46,11 +66,40 @@ input, select, button {
   .container-responsive {
     padding-left: 1.5rem;
     padding-right: 1.5rem;
+    max-width: 640px;
   }
 }
 
+@media (min-width: 768px) {
+  .container-responsive {
+    max-width: 768px;
+  }
+}
+
+@media (min-width: 1024px) {
+  .container-responsive {
+    max-width: 1024px;
+  }
+}
+
+@media (min-width: 1280px) {
+  .container-responsive {
+    max-width: 1280px;
+  }
+}
+
+/* 解决iOS Safari的高度问题 */
 @supports (-webkit-touch-callout: none) {
   .h-screen {
     height: -webkit-fill-available;
   }
+}
+
+/* 自定义暗色模式样式 */
+.dark button.btn-primary {
+  @apply bg-blue-600 hover:bg-blue-700 text-white;
+}
+
+.dark .card {
+  @apply bg-gray-800 text-gray-200 border-gray-700;
 }

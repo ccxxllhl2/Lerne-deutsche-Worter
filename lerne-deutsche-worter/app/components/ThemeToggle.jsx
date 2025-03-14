@@ -3,12 +3,17 @@
 import { useTheme } from '../context/ThemeContext';
 
 export default function ThemeToggle() {
-  const { theme, toggleTheme } = useTheme();
+  const { theme, toggleTheme, mounted } = useTheme();
+
+  // 避免水合错误，未挂载前不显示切换按钮
+  if (!mounted) {
+    return <div className="w-10 h-10"></div>;
+  }
 
   return (
     <button
       onClick={toggleTheme}
-      className="p-2 rounded-md bg-slate-200 dark:bg-slate-700"
+      className="p-2 rounded-md bg-slate-200 hover:bg-slate-300 dark:bg-slate-700 dark:hover:bg-slate-600 transition-colors duration-200 text-slate-700 dark:text-slate-200"
       aria-label={theme === 'dark' ? '切换到亮色模式' : '切换到暗色模式'}
     >
       {theme === 'dark' ? (
@@ -24,4 +29,4 @@ export default function ThemeToggle() {
       )}
     </button>
   );
-}
+} 
